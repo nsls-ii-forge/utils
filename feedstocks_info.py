@@ -20,14 +20,15 @@ for i, feedstock in enumerate(all_feedstocks):
 
     # Get version info from README.md's badge via requesting the info from svg:
     try:
-        html_text = markdown.markdown(open(os.path.join(feedstock, 'README.md')).read())
-        html = BeautifulSoup(html_text, features='lxml')
-        svg = html.findAll('img', attrs={'alt': 'Conda Version'})[0]
-        r = requests.get(svg.attrs['src'])
-        svg_html = BeautifulSoup(r.text, features='lxml')
-        version_tag = svg_html.findAll('text')[-1]
-        version = version_tag.text
-    except:
+        with open(os.path.join(feedstock, 'README.md')) as f:
+            html_text = markdown.markdown(f.read())
+            html = BeautifulSoup(html_text, features='lxml')
+            svg = html.findAll('img', attrs={'alt': 'Conda Version'})[0]
+            r = requests.get(svg.attrs['src'])
+            svg_html = BeautifulSoup(r.text, features='lxml')
+            version_tag = svg_html.findAll('text')[-1]
+            version = version_tag.text
+    except Exception:
         version = ''
 
     # Extract info from git:
