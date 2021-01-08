@@ -16,7 +16,8 @@ while True:
 
 # print(f'Number of all repos: {len(all_repos)}')
 
-all_feedstocks = [r for r in all_repos if r['name'].endswith('-feedstock')]
+all_feedstocks = [r for r in all_repos
+                  if (r['name'].endswith('-feedstock') and not r['archived'])]
 # print(f'Number of all feedstocks: {len(all_feedstocks)}')
 
 for feedstock in all_feedstocks:
